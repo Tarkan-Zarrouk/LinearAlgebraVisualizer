@@ -62,8 +62,11 @@ public class MainFrame extends JFrame {
         custom.addActionListener(e -> {
             Color color = JColorChooser.showDialog(this, "Accent colour", Theme.accent());
             if (color != null) {
-                Theme.setAccent(color);
-                restyle();
+                String name = Theme.addAccent(color);
+                if (((DefaultComboBoxModel<String>) accent.getModel()).getIndexOf(name) < 0) {
+                    accent.addItem(name);
+                }
+                accent.setSelectedItem(name);
             }
         });
         bar.add(dark);

@@ -53,6 +53,17 @@ public final class Theme {
     }
 
     /**
+     * Registers a colour by its hex code and returns its name.
+     * @param color the colour to register
+     * @return the registered colour name
+     */
+    public static String addAccent(Color color) {
+        String name = String.format("#%02X%02X%02X", color.getRed(), color.getGreen(), color.getBlue());
+        ACCENTS.putIfAbsent(name, color);
+        return name;
+    }
+
+    /**
      * Sets the active accent colour.
      * @param color the colour to use
      */
