@@ -1,7 +1,8 @@
-package linear.algebra.ui;
+package linear.algebra.ui.model;
 
 import linear.algebra.core.Matrix;
 import linear.algebra.core.RowReducer;
+import linear.algebra.ui.view.Theme;
 
 import javax.swing.*;
 import java.awt.*;

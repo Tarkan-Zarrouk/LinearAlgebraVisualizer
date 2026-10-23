@@ -50,30 +50,31 @@ public final class Determinant {
             return "det = ad - bc = (" + matrix.get(0, 0) + ")(" + matrix.get(1, 1) + ") - (" + matrix.get(0, 1) + ")("
             + matrix.get(1, 0) + ") = " + diagonalProduct.sub(offDiagonalProduct) + "\n";
         }
-        StringBuilder steps = new StringBuilder("Expand along row 1:\n");
+        String steps = "Expand along row 1:\n";
         Fraction total = Fraction.ZERO;
         for (int j = 0; j < size; j++) {
             Fraction minorDeterminant = of(matrix.minor(0, j));
             Fraction cofactorTerm = matrix.get(0, j).mul(minorDeterminant);
             boolean positiveTerm = j % 2 == 0;
-            steps.append("  ");
+            steps += " ";
             if (positiveTerm) {
-                steps.append("+");
+                steps += "+";
             } else {
-                steps.append("-");
+                steps += "-";
             }
-            steps.append(" (").append(matrix.get(0, j)).append(") * det(M1").append(j + 1).append(") = ");
+            steps += " (" + matrix.get(0,j) + ") * det(M1" + j + 1 + ") = ";
             if (!positiveTerm) {
-                steps.append("-");
+                steps += "-";
             }
-            steps.append("(").append(matrix.get(0, j)).append(")(").append(minorDeterminant).append(")\n");
+            steps += "(" + matrix.get(0,j) + ")(" + minorDeterminant + ")\n";
             if (positiveTerm) {
                 total = total.add(cofactorTerm);
             } else {
                 total = total.sub(cofactorTerm);
             }
         }
-        return steps.append("det = ").append(total).append("\n").toString();
+        steps += "det = " + total + "\n";
+        return steps;
     }
 
     /**

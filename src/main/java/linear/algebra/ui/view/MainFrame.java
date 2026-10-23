@@ -1,6 +1,8 @@
-package linear.algebra.ui;
+package linear.algebra.ui.view;
 
 import linear.algebra.core.Matrix;
+import linear.algebra.ui.model.MatrixInput;
+import linear.algebra.ui.tools.*;
 
 import javax.swing.*;
 import java.awt.*;

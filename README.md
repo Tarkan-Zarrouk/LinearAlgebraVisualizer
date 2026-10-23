@@ -25,12 +25,5 @@ Needs JDK 26.
 The matrix on the left is shared by every tab. Presets and a random button are
 there for quick examples. Dark mode and the accent colour are in the top bar.
 
-## Layout
-
-    linear.algebra.core   fractions, matrices, row reduction, determinant, inverse (no Swing)
-    linear.algebra.ui     theme, matrix input, and one class per tab
-
-## Not done yet
-
-3D views (planes, Col A / Nul A), eigenvalues, complex numbers, orthogonality and
-projections.
+## GUI
+<img src="./assets/gui.png">

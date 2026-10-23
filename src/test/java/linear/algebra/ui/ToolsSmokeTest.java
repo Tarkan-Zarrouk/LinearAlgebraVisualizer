@@ -1,6 +1,8 @@
 package linear.algebra.ui;
 
 import linear.algebra.core.Matrix;
+import linear.algebra.ui.model.MatrixInput;
+import linear.algebra.ui.tools.*;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.*;

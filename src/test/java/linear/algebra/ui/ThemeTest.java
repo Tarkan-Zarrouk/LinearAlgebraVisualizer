@@ -1,5 +1,6 @@
 package linear.algebra.ui;
 
+import linear.algebra.ui.view.Theme;
 import org.junit.jupiter.api.Test;
 
 import java.awt.Color;

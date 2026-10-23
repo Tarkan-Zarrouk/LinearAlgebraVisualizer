@@ -1,4 +1,4 @@
-package linear.algebra.ui;
+package linear.algebra.ui.tools;
 
 import linear.algebra.core.Matrix;
 

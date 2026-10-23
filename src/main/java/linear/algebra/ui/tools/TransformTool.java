@@ -1,7 +1,9 @@
-package linear.algebra.ui;
+package linear.algebra.ui.tools;
 
 import linear.algebra.core.Fraction;
 import linear.algebra.core.Matrix;
+import linear.algebra.ui.view.PlotPanel;
+import linear.algebra.ui.view.Theme;
 
 import javax.swing.*;
 import java.awt.*;

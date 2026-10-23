@@ -1,4 +1,4 @@
-package linear.algebra.ui;
+package linear.algebra.ui.view;
 
 import javax.swing.*;
 import java.awt.*;

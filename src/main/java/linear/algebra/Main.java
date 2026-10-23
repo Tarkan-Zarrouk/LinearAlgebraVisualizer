@@ -1,6 +1,6 @@
 package linear.algebra;
 
-import linear.algebra.ui.MainFrame;
+import linear.algebra.ui.view.MainFrame;
 
 import javax.swing.*;
 
@@ -18,7 +18,7 @@ public class Main {
      * Starts the Swing interface on the event dispatch thread.
      * @param args the command-line arguments
      */
-    public static void main(String[] args) {
+    static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             try {
                 UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
