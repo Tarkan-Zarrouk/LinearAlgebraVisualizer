@@ -24,7 +24,7 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         tools = List.of(new RrefTool(), new ManualRowTool(), new SystemsTool(),
-        new TransformTool(input::setMatrix), new DeterminantTool(), new InverseTool());
+        new TransformTool(input::applyMatrix), new DeterminantTool(), new InverseTool());
         for (Tool tool : tools) {
             tabs.addTab(tool.title(), tool.view());
         }
@@ -79,7 +79,7 @@ public class MainFrame extends JFrame {
     }
 
     /**
-     * Updates the displayed summary and step log.
+     * Recomputes every tab from the current entries. Runs when Compute is pressed.
      */
     private void refresh() {
         Matrix matrix = input.getMatrix();

@@ -5,8 +5,6 @@ import linear.algebra.core.Matrix;
 import linear.algebra.ui.view.Theme;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +37,9 @@ public class MatrixInput extends JPanel {
     };
 
     private final JSpinner rowsSpinner = new JSpinner(new SpinnerNumberModel(2, 1, 4, 1));
-    private final JSpinner colsSpinner = new JSpinner(new SpinnerNumberModel(3, 1, 5, 1));
+    private final JSpinner colsSpinner = new JSpinner(new SpinnerNumberModel(3, 1, 4, 1));
     private final JCheckBox augmented = new JCheckBox("Augmented (last column is b)", true);
+    private final JLabel status = new JLabel(" ");
     private final JPanel grid = new JPanel();
     private final List<List<JTextField>> fields = new ArrayList<>();
     private final List<Runnable> listeners = new ArrayList<>();
@@ -67,9 +66,7 @@ public class MatrixInput extends JPanel {
         presets.addActionListener(e -> {
             Preset preset = PRESETS[presets.getSelectedIndex()];
             if (preset.values() != null) {
-                updating = true;
                 augmented.setSelected(preset.augmented());
-                updating = false;
                 setMatrix(Matrix.ofInts(preset.values()));
             }
         });
@@ -79,7 +76,8 @@ public class MatrixInput extends JPanel {
 
         JPanel top = new JPanel();
         top.setLayout(new BoxLayout(top, BoxLayout.Y_AXIS));
-        for (JComponent component : new JComponent[]{size, augmented, presets, randomButton}) {
+        JButton compute = new JButton("Compute");
+        for (JComponent component : new JComponent[]{size, augmented, presets, randomButton, compute, status}) {
             component.setAlignmentX(Component.LEFT_ALIGNMENT);
             top.add(component);
             top.add(Box.createVerticalStrut(4));
@@ -89,13 +87,13 @@ public class MatrixInput extends JPanel {
 
         rowsSpinner.addChangeListener(e -> resize());
         colsSpinner.addChangeListener(e -> resize());
-        augmented.addActionListener(e -> fire());
+        compute.addActionListener(e -> compute());
         rebuild(2, 3);
         setMatrix(Matrix.ofInts(PRESETS[1].values()));
     }
 
     /**
-     * Registers a callback for matrix input changes.
+     * Registers a callback that runs when the matrix is computed.
      * @param listener the callback to register
      */
     public void addChangeListener(Runnable listener) {
@@ -145,7 +143,6 @@ public class MatrixInput extends JPanel {
             }
         }
         updating = false;
-        fire();
     }
 
     /**
@@ -186,7 +183,6 @@ public class MatrixInput extends JPanel {
             }
         }
         updating = false;
-        fire();
     }
 
     /**
@@ -204,31 +200,6 @@ public class MatrixInput extends JPanel {
                 JTextField field = new JTextField("0", 4);
                 field.setHorizontalAlignment(SwingConstants.CENTER);
                 field.setFont(Theme.MONO);
-                field.getDocument().addDocumentListener(new DocumentListener() {
-                    /**
-                     * Notifies listeners after text is inserted.
-                     * @param e the document event
-                     */
-                    public void insertUpdate(DocumentEvent e) {
-                        fire();
-                    }
-
-                    /**
-                     * Notifies listeners after text is removed.
-                     * @param e the document event
-                     */
-                    public void removeUpdate(DocumentEvent e) {
-                        fire();
-                    }
-
-                    /**
-                     * Notifies listeners after document attributes change.
-                     * @param e the document event
-                     */
-                    public void changedUpdate(DocumentEvent e) {
-                        fire();
-                    }
-                });
                 row.add(field);
                 grid.add(field);
             }
@@ -240,11 +211,31 @@ public class MatrixInput extends JPanel {
     }
 
     /**
-     * Notifies listeners that the matrix input changed.
+     * Replaces the entries and notifies listeners right away. Used for direct manipulation,
+     * such as dragging the basis vectors in the transformation view.
+     * @param matrix the matrix to display and compute with
      */
-    private void fire() {
-        if (!updating) {
-            listeners.forEach(Runnable::run);
+    public void applyMatrix(Matrix matrix) {
+        setMatrix(matrix);
+        notifyListeners();
+    }
+
+    /**
+     * Validates the entries and, if they are all numbers, notifies listeners to recompute.
+     */
+    private void compute() {
+        if (getMatrix() == null) {
+            status.setText("Every entry must be a number like 3, -1/2 or 0.25");
+            return;
         }
+        status.setText(" ");
+        notifyListeners();
+    }
+
+    /**
+     * Runs every registered listener.
+     */
+    private void notifyListeners() {
+        listeners.forEach(Runnable::run);
     }
 }
